@@ -127,3 +127,25 @@ colors = [
   ["Wisconsin","#cc1122","#FFFFFF","#FFFFFF",""  ],
   ["Wyoming","#593D2B","#FFD700","#FFFFFF",""  ]
 ]
+
+responses = [
+	{
+		"primary":"Texas",
+		"secondary":"Stanford",
+		"growUp":"Brazoria, TX",
+		"youngAdult":"Travis, TX",
+		"current":"Travis, TX",
+		"ethnicity":"eastAsian",
+		"gender":"male"
+	},
+	{
+		"primary":"Texas",
+		"secondary":"Northwestern",
+		"growUp":"Brazoria, TX",
+		"youngAdult":"Cook, IL",
+		"current":"Cook, IL",
+		"ethnicity":"white",
+		"gender":"male"
+	}
+]
+
