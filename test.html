@@ -15815,6 +15815,7 @@
 		
 		var PRIMARY = "primary";
 		var SECONDARY = "secondary";
+		var ALL_FANS = "allFans";
 		
 		var currentLivingSetting = GROW_UP;		
 		var currentFanhood = PRIMARY;
@@ -15837,8 +15838,11 @@
 			for(var i = 0; i < responses.length; i++){
 				var currentResponse = responses[i];
 				
+				var matchesCurrentFanhoodSetting = currentFanhood == ALL_FANS && 
+												(currentResponse[PRIMARY] == currentSchool || currentResponse[SECONDARY] == currentSchool) 
+												|| currentResponse[currentFanhood] == currentSchool;
 				
-				if(currentResponse[currentFanhood] == currentSchool){
+				if(matchesCurrentFanhoodSetting){
 					var x = 0;
 					for(var j = 0; j < counties.length; j++){
 						if(counties[j].name == currentResponse[currentLivingSetting]){
@@ -15884,18 +15888,6 @@
 												}
 												return 0;
 											});
-					
-			
-			
-						
-				
-			
-			//TODO: delete this when done with everything. this is to see if the array is correct. won't affect
-			//things much in the final product though. 
-			for(var i = 0; i < counties.length; i++){				
-				console.log(counties[i].name + " " + counties[i].count);
-				
-			}
 		}
 		
 		//change which stage in life your'e in 
@@ -15932,16 +15924,7 @@
 						.attr("value", function(d) {return d[0];});
 							
 		dropDown.on("change", dropDownChange);
-		
-		/*
-		d3.select("svg").selectAll("path").style("fill", "#CC5500")
-		.style("fill-opacity", function(){
-			if(counties.indexOf( this.id) >= 0){
-				return 1
-				//return scale(object[this.id]);
-			}
-			return 1;
-		});*/
+		d3.select("body").append("br");
 	</script>
 	<button onClick="buttonChangeLiving(GROW_UP)">Grow Up</button>
 	<button onClick="buttonChangeLiving(YOUNG_ADULT)">Young Adult</button>
@@ -15950,6 +15933,7 @@
 	
 	<button onClick="buttonChangePrimary(PRIMARY)">Primary</button>
 	<button onClick="buttonChangePrimary(SECONDARY)">Secondary</button>
+	<button onClick="buttonChangePrimary(ALL_FANS)">Both</button>
 </body>
 
 </html>
