@@ -15828,10 +15828,17 @@
 				recolor();
 			}
 		}
+		function save() { 
+			var e = document.createElement('script'); 
+			e.setAttribute('src', 'https://nytimes.github.io/svg-crowbar/svg-crowbar.js'); 
+			e.setAttribute('class', 'svg-crowbar'); document.body.appendChild(e); 
+		}
 		
 		function recolor(){
 			if(currentSchool == "")
 				return;
+			d3.select("svg")
+				.attr("id","map-"+currentSchool+"-"+currentFanhood+"-"+currentLivingSetting);
 			var index = 0;
 			var counties = [];
 			var max = 0;
@@ -15934,6 +15941,8 @@
 	<button onClick="buttonChangePrimary(PRIMARY)">Primary</button>
 	<button onClick="buttonChangePrimary(SECONDARY)">Secondary</button>
 	<button onClick="buttonChangePrimary(ALL_FANS)">Both</button>
+	<br/>
+	<button onClick="save()">Save svg</button>
 </body>
 
 </html>
