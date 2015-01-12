@@ -15809,31 +15809,121 @@
 	<script src = "data.js"></script>
 	<script>
 	
+		var GROW_UP = "growUp";
+		var YOUNG_ADULT = "youngAdult";
+		var CURRENT_LIVING = "current";
+		
+		var PRIMARY = "primary";
+		var SECONDARY = "secondary";
+		
+		var currentLivingSetting = GROW_UP;		
+		var currentFanhood = PRIMARY;
+		
+		var currentSchool = "null";
+	
 		function dropDownChange(){
-			var school = d3.event.target.value;
+			currentSchool = d3.event.target.value;
+			if(currentSchool != ""){
+				recolor();
+			}
+		}
+		
+		function recolor(){
+			if(currentSchool == "")
+				return;
 			var index = 0;
+			var counties = [];
+			var max = 0;
+			for(var i = 0; i < responses.length; i++){
+				var currentResponse = responses[i];
+				
+				
+				if(currentResponse[currentFanhood] == currentSchool){
+					var x = 0;
+					for(var j = 0; j < counties.length; j++){
+						if(counties[j].name == currentResponse[currentLivingSetting]){
+							counties[j].count++;
+							if(counties[j].count > max)
+								max = counties[j].count;
+							x = 1;
+							//break;
+						}
+					}
+					if(x == 0){
+						counties.push({name:currentResponse[currentLivingSetting],count:1});
+						if(max == 0)
+							max++
+					}
+				}
+			}
+
+			
 			for(var i = 0; i < colors.length; i++){
-				if(colors[i][0] == school){
+				if(colors[i][0] == currentSchool){
 					index = i;
 					break;
 				}
 			}
 			
+			var scale = d3.scale.linear()
+						.domain([0,max])
+						.range([0,1]);
 			
-			d3.select("svg").selectAll("path").style("fill", function(){
-								if(this.id == "separator" || this.id == "State_Lines")
-									return "none";
-								if(Math.random()>0.3) 
-									return colors[i][1]; 
-								else 
-									return colors[i][2];});
+			d3.select("svg").selectAll("path")
+					.style("fill", colors[i]["1"])
+					.style("fill-opacity", 	function(){
+												var countyIndex = -1;
+												for(var i =0; i < counties.length; i++){
+													if(counties[i].name == this.id){
+														countyIndex = i;
+														break;
+													}
+												}
+												if(countyIndex >= 0){
+													return scale(counties[countyIndex].count);
+												}
+												return 0;
+											});
+					
 			
+			
+						
+				
+			
+			//TODO: delete this when done with everything. this is to see if the array is correct. won't affect
+			//things much in the final product though. 
+			for(var i = 0; i < counties.length; i++){				
+				console.log(counties[i].name + " " + counties[i].count);
+				
+			}
 		}
 		
-		var dropDown = d3.select("body").append("select")
-							.attr("name", "test");
+		//change which stage in life your'e in 
+		function buttonChangeLiving(setting){
+			if(currentLivingSetting != setting){
+				currentLivingSetting = setting;
+				recolor();
+			}
+		}
+		
+		//change primary or secondary school
+		function buttonChangePrimary(setting){
+			if(currentFanhood != setting){
+				currentFanhood = setting;
+				recolor();
+			}
+		}
+		
+		//create the drop down menu
+		d3.select("body").append("br");
+		var dropDown = d3.select("body")
+							.append("select")
+							.attr("name", "test");	
 							
-							
+		dropDown.append("option")
+					.text("")
+					.attr("value", "");
+		
 		dropDown.selectAll("option")
 					.data(colors)
 					.enter()
@@ -15842,46 +15932,8 @@
 						.attr("value", function(d) {return d[0];});
 							
 		dropDown.on("change", dropDownChange);
-	
-		function max(data){
-			var max = data[0];
-			for(var i; i < data.length; i++){
-				if(data[i] > max)
-					max = data[i];
-			}
-			return max;
-		}
-	
-		var r = 0xCC;
-		var g = 0x55;
-		var b = 0;
 		
-		var counties = ["Harris, TX", "Dallas, TX", "Travis, TX", "Orange, CA", "Bexar, TX"];
-		var data = [100, 90, 135, 10, 80];
-		
-		var object = [];
-		
-		for(var i = 0; i < counties.length; i++){
-			object[counties[i]] = data[i];
-		}
-		
-		
-		var maxFreq = max(data);
-		var scale = d3.scale.linear()
-						.domain([0,maxFreq])
-						.range([0,1]);
-		
-		
-	
 		/*
-		for(var i = 0; i < counties.length; i++){
-			d3.select("#"+counties[i])
-				.style("fill", "#CC5500");
-				
-		}*/
-		
-		//d3.select("#Harris, TX").style("fill", "red");
-		
 		d3.select("svg").selectAll("path").style("fill", "#CC5500")
 		.style("fill-opacity", function(){
 			if(counties.indexOf( this.id) >= 0){
@@ -15889,10 +15941,15 @@
 				//return scale(object[this.id]);
 			}
 			return 1;
-		});
-		
-	
+		});*/
 	</script>
+	<button onClick="buttonChangeLiving(GROW_UP)">Grow Up</button>
+	<button onClick="buttonChangeLiving(YOUNG_ADULT)">Young Adult</button>
+	<button onClick="buttonChangeLiving(CURRENT_LIVING)">Current Living</button>
+	<br/>
+	
+	<button onClick="buttonChangePrimary(PRIMARY)">Primary</button>
+	<button onClick="buttonChangePrimary(SECONDARY)">Secondary</button>
 </body>
 
 </html>
