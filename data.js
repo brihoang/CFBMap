@@ -128,58 +128,24 @@ colors = [
   ["Wyoming","#593D2B","#FFD700","#FFFFFF",""  ]
 ]
 
-conferences = {"American":["UCF", "Cincinnati", "Connecticut", 
-							"East Carolina", "Houston", "Memphis",
-							"South Florida", "SMU", "Temple", 
-							"Tulane", "Tulsa"], 
-					"ACC":["Boston College", "Clemson", "Duke",
-							"Florida State", "Georgia Tech", 
-							"Louisville", "Miami (FL)",	"UNC", 
-							"NC State", "Pittsburgh", "Syracuse",
-							"Virginia", "Virginia Tech", "Wake Forest"], 
-					"Big Ten":["Illinois", "Indiana", "Iowa",
-								"Maryland","Michigan",
-								"Michigan State", "Minnesota", 
-								"Nebraska", "Northwestern", 
-								"Ohio State", "Penn State", "Purdue",
-								"Rutgers", "Wisconsin"], 
-					"Big 12":["Baylor", "Iowa State", "Kansas",
-								"Kansas State", "Oklahoma",
-								"Oklahoma State", "Texas", "TCU",
-								"Texas Tech", "West Virginia"], 
-					"Conference USA":["Florida Atlantic", "FIU",
-								"Louisiana Tech", "Marshall", 
-								"Middle Tennessee", "North Texas",
-								"Old Dominion", "Rice", "Southern Miss", "UTEP", "UTSA", "Western Kentucky"],
-					"Independents":["Army", "BYU", "Notre Dame"], 
-					"MAC":["Akron", "Ball State", "Bowling Green",
-							"Buffalo", "Central Michigan", 
-							"Eastern Michigan", "Kent State", 
-							"Miami (OH)", "Northern Illinois", "Ohio",
-							"Toledo", "Western Michigan", 
-							"Massachusetts"], 
-					"Mountain West":["Air Force", "Boise State", 
-							"Fresno State", "Colorado State", "Hawaii",
-							"Nevada", "UNLV", "New Mexico", 
-							"San Diego State", "Utah State", "Wyoming"], 
-					"Pac 12":["Arizona", "Arizona State", "Cal", "UCLA",
-							"Colorado", "Oregon", "Oregon State", "USC",
-							"Stanford", "Utah", "Washington", 
-							"Washington State"], 
-					"SEC":["Alabama", "Arkansas", "Auburn", "Florida",
-							"Georgia", "Kentucky", "LSU", "Ole Miss",
-							"Mississippi State", "Missouri", 
-							"South Carolina", "Tennessee", "Texas A&M",
-							"Vanderbilt"],
-					"Sun Belt":["Appalachian State", "Arkansas State",
-							"Georgia Southern", "Georgia State",
-							"Idaho", "Louisiana-Lafayette",
-							"Louisiana-Monroe", "New Mexico State",
-							"South Alabama", "Texas State", "Troy"]
-				}
-				
-				
-conferenceColors = [["American","#01509f","#ed1b24"],["ACC", "#013ca6", "a5a9ab"], ["Big Ten", "#0095da", "#000000"],
-					["Big 12", "#a7212a", "#FFFFFF"], ["Conference USA","#053768", "#f9102e"],
-					["Independents", "#707070","#FFFFFF"], ["MAC", "#00a25f", "#04285c"], ["Mountain West"], 
-					["Pac 12", "#00326f", "#FFFFFF"], ["SEC", "#004684", "ffd046"],["Sun Belt","#fdb813","#00529b"]]
+responses = [
+	{
+		"primary":"Texas",
+		"secondary":"Stanford",
+		"growUp":"Brazoria, TX",
+		"youngAdult":"Travis, TX",
+		"current":"Travis, TX",
+		"ethnicity":"eastAsian",
+		"gender":"male"
+	},
+	{
+		"primary":"Texas",
+		"secondary":"Northwestern",
+		"growUp":"Brazoria, TX",
+		"youngAdult":"Cook, IL",
+		"current":"Cook, IL",
+		"ethnicity":"white",
+		"gender":"male"
+	}
+]
+
