@@ -1,0 +1,222 @@
+<html>
+
+<head>
+	<title> Not Maps</title>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+	<script src="responses.js"></script>
+	<script src="data.js"></script>
+	<script>
+		
+		
+		var currentSchool = "Texas";
+		
+		var currentType = "primary";
+		
+		var PRIMARY = "primary";
+		var SECONDARY = "secondary";
+		
+		var canvas = d3.select("body").append("svg")
+				.attr("width", 1500)
+				.attr("height", 500);
+		
+		//create the drop down menu
+		d3.select("body").append("br");
+		var dropDown = d3.select("body")
+							.append("select")
+							.attr("name", "test");	
+							
+		dropDown.append("option")
+					.text("")
+					.attr("value", "");
+		
+		dropDown.selectAll("option")
+					.data(colors)
+					.enter()
+						.append("option")
+						.text(function(d){return d[0]})
+						.attr("value", function(d) {return d[0];});
+		for(var i = 0; i < conferenceColors.length; i++){
+			dropDown.append("option").text(conferenceColors[i][0]);
+		}
+		dropDown.append("option").text("ALL");
+		dropDown.on("change", dropDownChange);
+		
+		function dropDownChange(){
+			currentSchool = d3.event.target.value;
+			if(currentSchool != "")
+				recolor();
+		}
+		
+		function changeType(type2){
+			if(currentType != type2){
+				currentType = type2;
+			}
+			recolor();
+			
+		}
+		
+		function recolor(){
+			genderPie();
+			agePie();
+		}
+		
+		function inConference(conference, school){
+			confArr = conferences[conference];
+			for(var i = 0; i < confArr.length; i++)
+				if(confArr[i] == school)
+					return true;
+		}
+		
+		function isConference(s){
+			if(s == "ACC" || s == "American" || s == "Big Ten" || s == "Big 12"
+						|| s == "Conference USA" || s =="MAC" || s == "Independents" || s == "Mountain West"
+						|| s == "Pac 12" || s == "SEC" || s == "Sun Belt")
+				return true;
+		}
+		
+		function genderPie(){
+			var numMale = 0;
+			var numFemale = 0;
+			
+			for(var i = 0; i < responses.length; i++){
+				if(responses[i][currentType] == currentSchool){
+					if(responses[i].gender == "Male")
+						numMale++
+					else
+						numFemale++;
+				}else if(isConference(currentSchool) && inConference(currentSchool, responses[i][currentType])){
+					if(responses[i].gender == "Male")
+						numMale++
+					else
+						numFemale++;
+				}else if(currentSchool == "ALL"){
+					if(responses[i].gender == "Male")
+						numMale++
+					else
+						numFemale++;
+				}
+			}
+			if(numMale + numFemale == 0){
+				return;
+			}
+			data = [numMale, numFemale];
+			r = 200;
+			var primaryColor = "Green";
+			var secondaryColor = "Blue";
+			
+			for(var i = 0; i < colors.length; i++){
+				if(colors[i][0] == currentSchool){
+					primaryColor = colors[i][1];
+					secondaryColor = colors[i][2];
+				}
+			}
+			var color = d3.scale.ordinal()
+				.range([primaryColor, secondaryColor]);
+				
+			
+			
+			var group = canvas.append("g")
+				.attr("transform", "translate(200,200)");
+				
+			var arc = d3.svg.arc()
+				.innerRadius(150)
+				.outerRadius(r);
+				
+			var pie = d3.layout.pie()
+				.value(function(d) {return d;});
+				
+			var arcs = group.selectAll(".arc")
+				.data(pie(data))
+				.enter()
+				.append("g")
+				.attr("class", "arc");
+				
+			arcs.append("path")
+				.attr("d", arc)
+				.attr("fill", function(d) {return color(d.data);});
+			
+			arcs.append("text")
+				.attr("transform", function(d){ return "translate("+arc.centroid(d)+")";})
+				.attr("text-anchor", "middle")
+				.attr("font-size", "150%")
+				.attr("font-family", "Arial")
+				.text(function(d){if(d.data>0) return d.data; else return "";});
+		}	
+	
+		function agePie(){
+			var binning = d3.scale.ordinal()
+				.domain(["0-15","16-17","18-25","26-35","36-50","51-65","66+"])
+				.range([0,1,2,3,4,5,6]);
+			
+			var bins = [0,0,0,0,0,0,0];
+			
+			for(var i = 0; i < responses.length; i++){
+				if(responses[i][currentType] == currentSchool){
+					var bin = binning(responses[i].age);
+					bins[bin]++
+				}else if(isConference(currentSchool) && inConference(currentSchool, responses[i][currentType])){
+					var bin = binning(responses[i].age);
+					bins[bin]++
+				}else if(currentSchool == "ALL"){
+					var bin = binning(responses[i].age);
+					bins[bin]++
+				}
+			}
+			
+			
+			data = bins;
+			r = 199;
+			var primaryColor = "Green";
+			var secondaryColor = "Blue";
+			
+			for(var i = 0; i < colors.length; i++){
+				if(colors[i][0] == currentSchool){
+					primaryColor = colors[i][1];
+					secondaryColor = colors[i][2];
+				}
+			}
+			var color = d3.scale.ordinal()
+				.range([primaryColor, secondaryColor, primaryColor, secondaryColor,
+							primaryColor,secondaryColor,primaryColor]);
+				
+			
+			
+			var group = canvas.append("g")
+				.attr("transform", "translate(600,200)");
+				
+			var arc = d3.svg.arc()
+				.innerRadius(151)
+				.outerRadius(r);
+				
+			var pie = d3.layout.pie()
+				.value(function(d) {return d;});
+				
+			var arcs = group.selectAll(".arc")
+				.data(pie(data))
+				.enter()
+				.append("g")
+				.attr("class", "arc");
+				
+			arcs.append("path")
+				.attr("d", arc)
+				.attr("fill", function(d) {return color(d.data);});
+			
+			arcs.append("text")
+				.attr("transform", function(d){ return "translate("+arc.centroid(d)+")";})
+				.attr("text-anchor", "middle")
+				.attr("font-size", "150%")
+				.attr("font-family", "Arial")
+				.text(function(d){if(d.data>0) return d.data; else return "";});
+		}
+		
+	</script>
+</body>
+	<br/>
+	<button onClick="changeType(PRIMARY)">prim</button>
+	<button onClick="changeType(SECONDARY)">sec</button>
+</body>
+
+</html>
