@@ -22,7 +22,7 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
    width="555.22198"
-   height="351.66797"
+   height="357.66797"
    id="svg9559"
    sodipodi:version="0.32"
    inkscape:version="0.45.1"
@@ -40,6 +40,7 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
+  
   <sodipodi:namedview
      inkscape:window-height="1000"
      inkscape:window-width="1680"
@@ -63,7 +64,7 @@
   <defs
      id="defs9561" />
 	<text x= "140" y = "15" id = "titleBar" font-family="Arial">Test Title</text>
-	<text x="487" y="345" font-family="Arial" font-size="0.4em">Created by /u/brihoang</text>
+	<text x="470" y="345" font-family="Arial" font-size="0.5em">Created by /u/brihoang</text>
   <path
      style="font-size:12px;fill:#d0d0d0;fill-rule:nonzero;stroke:#000000;stroke-opacity:1;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:butt;marker-start:none;stroke-linejoin:bevel"
      d="M 62.678745,259.31235 L 63.560745,258.43135 L 64.220745,257.99135 L 64.439745,258.43135 L 64.000745,258.65135 L 64.439745,258.65135 L 66.643745,257.99135 L 68.626745,255.56635 L 70.388745,256.44835 L 70.388745,256.89035 L 69.727745,257.54935 L 69.727745,258.21235 L 70.388745,257.99135 L 70.829745,256.89035 L 71.269745,256.44835 L 71.930745,257.10835 L 72.150745,257.99135 L 72.811745,258.21235 L 73.030745,257.77135 L 74.131745,257.54935 L 75.894745,257.54935 L 76.113745,257.77135 L 75.673745,258.43135 L 75.673745,258.65135 L 76.996745,258.87235 L 76.774745,259.53235 L 77.656745,259.53235 L 78.757745,258.87235 L 81.180745,258.65135 L 82.722745,259.09235 L 83.386745,259.09235 L 84.044745,259.31235 L 84.267745,259.53235 L 85.148745,259.53235 L 86.249745,259.31235 L 87.572745,259.31235 L 89.114745,259.75435 L 89.554745,259.53235 L 90.436745,258.87235 L 90.655745,258.65135 L 91.096745,258.21235 L 92.639745,258.43135 L 96.163745,259.53235 L 97.264745,263.05835 L 97.925745,265.26135 L 88.893745,267.46435 L 89.334745,269.88635 L 87.572745,270.32735 L 82.945745,271.21135 L 82.722745,271.21135 L 72.371745,272.31135 L 69.947745,272.31135 L 69.947745,271.87035 L 68.186745,271.87035 L 68.186745,271.42935 L 66.423745,271.42935 L 64.661745,271.64935 L 63.338745,271.64935 L 63.338745,271.21135 L 62.678745,271.21135 L 62.678745,271.42935 L 60.696745,271.42935 L 60.255745,271.21135 L 60.034745,271.21135 L 60.034745,271.42935 L 59.154745,271.42935 L 58.932745,270.98935 L 57.831745,270.98935 L 57.831745,271.42935 L 57.389745,271.42935 L 54.304745,271.21135 L 54.304745,272.08935 L 52.762745,272.08935 L 51.441745,271.42935 L 50.780745,270.54735 L 51.220745,269.22735 L 51.441745,267.68335 L 52.983745,267.90535 L 54.967745,267.68335 L 55.626745,267.46435 L 56.948745,265.92135 L 57.611745,263.93935 L 58.932745,261.95735 L 59.814745,261.07435 L 60.474745,261.29735 L 61.356745,260.85535 L 62.678745,259.31235"
@@ -15813,7 +15814,7 @@
 	<script src = "data.js"></script>
 	<script src = "responses.js"></script>
 	<script>
-	
+		//to save using image shack, use convert -density 400 -trim -resize 40% (name of file) -quality 100 -sharpen 0x1.0 (new file name)
 		var GROW_UP = "growUp";
 		var YOUNG_ADULT = "youngAdult";
 		var CURRENT_LIVING = "current";
@@ -15830,8 +15831,24 @@
 		function dropDownChange(){
 			currentSchool = d3.event.target.value;
 			if(currentSchool != ""){
-				recolor();
+				//recolor();
 			}
+			var toPrint = ""
+			//document.write(colors.length);
+			for(var i = 0; i < colors.length; i++){
+				currentSchool = colors[i][0];
+				var primary = 0;
+				var secondary =0;
+				for(var j =0; j < responses.length; j++){
+					if(responses[j].primary == currentSchool)
+						primary++;
+					else if(responses[j].secondary == currentSchool)
+						secondary++;
+				}
+				document.write(currentSchool + " | " + primary + " | " + secondary + "<br/>");
+			}
+			
+			
 		}
 		function save() { 
 			var e = document.createElement('script'); 
@@ -15862,6 +15879,7 @@
 			var index = 0;
 			var counties = [];
 			var max = 0;
+			var min = 1000000000;
 			for(var i = 0; i < responses.length; i++){
 				var currentResponse = responses[i];
 				/*if(currentResponse[PRIMARY] == "Ohio State" || currentResponse[SECONDARY] == "Ohiodd State")
@@ -15883,7 +15901,7 @@
 					for(var j = 0; j < counties.length; j++){
 						if(counties[j].name == currentResponse[currentLivingSetting]){
 							counties[j].count++;
-							if(counties[j].count > max)
+							if(counties[j].count > max && counties[j].name != "")
 								max = counties[j].count;
 							x = 1;
 							//break;
@@ -15897,17 +15915,65 @@
 				}
 			}
 			
+			for(var i = 0; i < counties.length; i++)
+				if(counties[i].count < min && counties[i].name != "")
+					min = counties[i].count;
+			
 			for(var i = 0; i < colors.length; i++){
 				if(colors[i][0] == currentSchool){
 					index = i;
 					break;
 				}
 			}
-			if(max > 50)
-				max= 50;
 			var scale = d3.scale.quantize()
-    .domain([0, max])
-    .range([0.25,0.3,0.4,0.5,0.6,.7,.8,.9,1]);
+				.domain([min, max])
+				
+			orange = ['#fdd0a2', '#fdae6b', '#fd8d3c', '#f16913', '#d94801', '#8c2d04'];
+			green = ['rgb(199,233,192)','rgb(161,217,155)','rgb(116,196,118)','rgb(65,171,93)','rgb(35,139,69)','rgb(0,90,50)'];
+			blue = ['rgb(198,219,239)','rgb(158,202,225)','rgb(107,174,214)','rgb(66,146,198)','rgb(33,113,181)','rgb(8,69,148)'];
+			red = ['rgb(252,187,161)','rgb(252,146,114)','rgb(251,106,74)','rgb(239,59,44)','rgb(203,24,29)','rgb(153,0,13)'];
+			purple = ['rgb(218,218,235)','rgb(188,189,220)','rgb(158,154,200)','rgb(128,125,186)','rgb(106,81,163)','rgb(74,20,134)'];
+			//if(['Clemson', 'Texas', 'Tennessee', 'Florida', 'Auburn', 'Oregon State', 'Oklahoma State'].indexOf(currentSchool) > 0)	
+			
+			blueSchools = ["Air Force","Arizona","Boise State","Buffalo","BYU","Cal","UCLA","Connecticut","Duke","FIU","Georgia Southern","Georgia State","Kansas","Kent State","Louisiana Tech","Memphis","Michigan","Middle Tennessee","Ole Miss","Navy","Nevada","North Carolina","Notre Dame","Old Dominion","Penn State","Pittsburgh","Rice","San Jose State","South Alabama","SMU","Toledo","Tulsa","Utah State","West Virginia", "Kentucky","UNC"];
+			
+			greenSchools = ["Baylor","Colorado State","Eastern Michigan","Hawaii","Marshall","Miami (FL)","North Texas","Ohio","South Florida","Tulane", "Michigan State", "Oregon"]
+			
+			redSchools =["Arizona State","Alabama","Arkansas","Arkansas State","Ball State","Fresno State","Central Michigan","Cincinnati","Florida State","Georgia","Houston","Indiana","Iowa State","Louisiana-Lafayette","Louisiana-Monroe","Louisville","Maryland","Massachusetts","Miami (OH)","Minnesota","Mississippi State","Nebraska","UNLV","New Mexico","New Mexico State","NC State","Northern Illinois","Ohio State","Oklahoma","Rutgers","San Diego State","South Carolina","USC","Stanford","Temple","Texas A&M","Texas State","Texas Tech","Troy","Utah","Washington State","Western Kentucky","Wisconsin"];
+			
+			orangeSchools =["Auburn", "Appalachian State","Army","Boston College","Bowling Green","UCF","Clemson","Colorado","Florida","Florida Atlantic","Georgia Tech","Idaho","Illinois","Iowa","Missouri","Oklahoma State","Oregon State","Purdue","Southern Miss","Syracuse","Tennessee","Texas","UTEP","UTSA","Vanderbilt","Virginia","Virginia Tech","Wake Forest","Western Michigan","Wyoming"];
+			
+			purpleSchools =["LSU", "East Carolina","Kansas State","Northwestern","TCU","Washington"];
+				
+			
+			if(max == min){
+				if(blueSchools.indexOf(currentSchool) >= 0)
+					scale = d3.scale.ordinal().domain([min]).range([blue[blue.length-1]]);
+				else if(greenSchools.indexOf(currentSchool) >= 0)
+					scale = d3.scale.ordinal().domain([min]).range([green[green.length-1]]);
+				else if(redSchools.indexOf(currentSchool) >= 0)
+					scale = d3.scale.ordinal().domain([min]).range([red[red.length-1]]);
+				else if(orangeSchools.indexOf(currentSchool) >= 0)
+					scale = d3.scale.ordinal().domain([min]).range(['#8c2d04']);
+				else if (purpleSchools.indexOf(currentSchool) >= 0)
+						scale = d3.scale.ordinal().domain([min]).range([purple[purple.length-1]]);
+				else 
+					scale = d3.scale.ordinal().domain([min]).range([orange[orange.length-1]]);
+			}
+			else{
+				if(blueSchools.indexOf(currentSchool) >= 0)
+					scale = d3.scale.quantize().domain([min,max]).range(blue);
+				else if(greenSchools.indexOf(currentSchool) >= 0)
+					scale = d3.scale.quantize().domain([min,max]).range(green);
+				else if(redSchools.indexOf(currentSchool) >= 0)
+					scale = d3.scale.quantize().domain([min,max]).range(red);
+				else if(orangeSchools.indexOf(currentSchool) >= 0)
+					scale = d3.scale.quantize().domain([min,max]).range(orange);
+				else if (purpleSchools.indexOf(currentSchool) >= 0)
+						scale = d3.scale.quantize().domain([min,max]).range(purple);
+				else
+					scale = d3.scale.quantize().domain([min,max]).range(orange);
+			}
 						
 			var newColor;
 			
@@ -15924,19 +15990,25 @@
 			else{
 				newColor = colors[index]["1"];
 			}
+			var colored = 0;
 			newColor = "#1C453A"
 			d3.select("svg").selectAll("path")
-					.style("fill", newColor)
+					.style("fill", function(){
+										for(var i =0; i < counties.length; i++){
+											if(counties[i].name == this.id){
+												countyIndex = i;
+												colored++;
+												return scale(counties[countyIndex].count);
+											}
+										}
+									})
 					.style("fill-opacity", 	function(){
 												var countyIndex = -1;
 												for(var i =0; i < counties.length; i++){
 													if(counties[i].name == this.id){
 														countyIndex = i;
-														break;
+														return 1;//scale(counties[countyIndex].count);
 													}
-												}
-												if(countyIndex >= 0){
-													return scale(counties[countyIndex].count);
 												}
 												return 0;
 											});
@@ -15957,6 +16029,8 @@
 				title = title + "d in college";
 				
 			d3.select("text").text(title);
+			//if(colored > 0)
+				//save();
 			
 		}
 		
@@ -15985,7 +16059,8 @@
 		dropDown.append("option")
 					.text("")
 					.attr("value", "");
-		
+		dropDown.append("option")
+					.text("Air Force");
 		dropDown.selectAll("option")
 					.data(colors)
 					.enter()

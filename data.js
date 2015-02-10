@@ -125,7 +125,9 @@ colors = [
   ["Western Kentucky","#F32026","#FFFFFF","#FFFFFF",""  ],
   ["Western Michigan","#663300","#CC9933","#B59966","#1D1B1B"  ],
   ["Wisconsin","#cc1122","#FFFFFF","#FFFFFF",""  ],
-  ["Wyoming","#593D2B","#FFD700","#FFFFFF",""  ]
+  ["Wyoming","#593D2B","#FFD700","#FFFFFF",""  ],
+  ["UAB"],
+  ["FCS"]
 ]
 
 conferences = {"American":["UCF", "Cincinnati", "Connecticut", 
